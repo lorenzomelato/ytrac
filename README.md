@@ -12,3 +12,5 @@ This is a lab for the following technologies:
 * ASP.NET MVC
 * ASP.NET Web Api
 * RavenDB
+
+This can be the right place for Trials and errors!
