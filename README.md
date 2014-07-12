@@ -9,4 +9,6 @@ This is a lab for the following technologies:
 * HTML5
 * Typescript
 * AngularJS
+* ASP.NET MVC
 * ASP.NET Web Api
+* RavenDB
