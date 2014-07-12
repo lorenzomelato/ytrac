@@ -20,8 +20,9 @@ namespace Ynnova.YTrac.Web.App_Start
 
 		public static ContainerBootstrapper Bootstrap()
 		{
-			var container = new WindsorContainer().
-				Install(FromAssembly.This());
+			var container = new WindsorContainer()
+				.Install(FromAssembly.This());
+			
 			return new ContainerBootstrapper(container);
 		}
 
