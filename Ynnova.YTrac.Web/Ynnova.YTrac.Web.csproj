@@ -189,6 +189,7 @@
     </Compile>
     <Compile Include="Infrastructure\RavenController.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
+    <Compile Include="Installers\IdentityInstaller.cs" />
     <Compile Include="Installers\RavenInstaller.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />

@@ -10,5 +10,10 @@ namespace Ynnova.YTrac.Web.Models
     {
 		public ApplicationUser(string userName)
 			: base(userName) { }
+
+		public ApplicationUser(string userName, string email)
+			: base(userName, email) { }
+
+		public string Note { get; set; }
     }
 }
