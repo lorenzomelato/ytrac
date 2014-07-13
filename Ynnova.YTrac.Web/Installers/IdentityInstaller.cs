@@ -30,6 +30,14 @@ namespace Ynnova.YTrac.Web.Installers
 
 			container.Register(
 				Component
+					.For<IIdentityMessageService>()
+					.LifeStyle
+						.PerWebRequest
+					.ImplementedBy<EmailService>()
+				);
+
+			container.Register(
+				Component
 					.For<UserManager<ApplicationUser>>()
 					.LifeStyle
 						.PerWebRequest
@@ -57,7 +65,7 @@ namespace Ynnova.YTrac.Web.Installers
 							manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
 								new DpapiDataProtectionProvider("YTrac").Create("Email Confirmation"));
 
-							manager.EmailService = new EmailService();
+							manager.EmailService = container.Resolve<IIdentityMessageService>();
 
 							return manager;
 						}));
