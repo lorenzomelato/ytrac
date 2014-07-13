@@ -14,5 +14,6 @@ This is a lab for the following technologies:
 * ASP.NET Web Api
 * ASP.NET Identity 2
 * RavenDB
+* Castle Windsor as DI service
 
 This can be the right place for Trials and errors!

@@ -184,6 +184,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\RavenController.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Installers\RavenInstaller.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
