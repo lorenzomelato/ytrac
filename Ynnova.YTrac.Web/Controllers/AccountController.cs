@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AspNet.Identity.RavenDB.Entities;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Ynnova.YTrac.Web.Infrastructure;
 using Ynnova.YTrac.Web.Models;
 
 namespace Ynnova.YTrac.Web.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : RavenController
     {
 		public UserManager<ApplicationUser> UserManager { get; set; }
 
@@ -31,7 +33,7 @@ namespace Ynnova.YTrac.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindAsync(model.Email, model.Password);
-                if (user != null)
+                if (user != null && user.EmailConfirmed)
                 {
                     await SignInAsync(user, model.RememberMe);
                     return RedirectToLocal(returnUrl);
@@ -64,16 +66,20 @@ namespace Ynnova.YTrac.Web.Controllers
             if (ModelState.IsValid)
             {
 				var user = new ApplicationUser(model.Email, model.Email);
+				user.EnableLockout();
+
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);
-
+					var email = new RavenUserEmail(user.Email, user.Id);
+					await RavenSession.StoreAsync(email);
+					await RavenSession.SaveChangesAsync();
+					
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -100,12 +106,16 @@ namespace Ynnova.YTrac.Web.Controllers
             IdentityResult result = await UserManager.ConfirmEmailAsync(userId, code);
             if (result.Succeeded)
             {
+				var user = await RavenSession.LoadAsync<ApplicationUser>(userId);
+				user.EmailConfirmed = true;
+				await RavenSession.SaveChangesAsync();
+
                 return View("ConfirmEmail");
             }
             else
             {
                 AddErrors(result);
-                return View();
+				return View();
             }
         }
 
