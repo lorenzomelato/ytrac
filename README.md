@@ -9,8 +9,10 @@ This is a lab for the following technologies:
 * HTML5
 * Typescript
 * AngularJS
+* Bootstrap
 * ASP.NET MVC
 * ASP.NET Web Api
+* ASP.NET Identity 2
 * RavenDB
 
 This can be the right place for Trials and errors!
