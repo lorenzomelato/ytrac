@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.DataProtection;
 using Raven.Client;
+using System.Threading.Tasks;
 using Ynnova.YTrac.Web.Models;
 
 namespace Ynnova.YTrac.Web.Installers
@@ -56,8 +57,19 @@ namespace Ynnova.YTrac.Web.Installers
 							manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
 								new DpapiDataProtectionProvider("YTrac").Create("Email Confirmation"));
 
+							manager.EmailService = new EmailService();
+
 							return manager;
 						}));
+		}
+	}
+
+	public class EmailService : IIdentityMessageService
+	{
+		public Task SendAsync(IdentityMessage message)
+		{
+			// Plug in your email service here to send an email.
+			return Task.FromResult(0);
 		}
 	}
 }

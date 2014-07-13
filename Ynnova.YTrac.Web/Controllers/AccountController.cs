@@ -66,7 +66,6 @@ namespace Ynnova.YTrac.Web.Controllers
             if (ModelState.IsValid)
             {
 				var user = new ApplicationUser(model.Email, model.Email);
-				user.EnableLockout();
 
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
