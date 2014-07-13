@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AspNet.Identity.RavenDB">
+      <HintPath>..\packages\AspNet.Identity.RavenDB.2.0.0-pre-06\lib\net45\AspNet.Identity.RavenDB.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
